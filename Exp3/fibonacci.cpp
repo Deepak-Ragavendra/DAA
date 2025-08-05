@@ -33,7 +33,7 @@ void mergesort(vector<int> &arr,int low,int high){
     }
 }
 int main(){
-    std::vector<int> sdata(10000);
+    std::vector<int> sdata(100);
     iota(sdata.begin(), sdata.end(), 0);
     std::vector<int> given(sdata.begin(), sdata.end());
     int n = given.size();

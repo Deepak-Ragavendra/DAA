@@ -23,9 +23,9 @@ int maxDigit(int n) {
 }
 
 int main() {
-    clock_t start = clock();
     int n;
     cin >> n;
+    clock_t start = clock();
     int result = maxDigit(n);
     if (result >= 8) {
         cout << result << endl;

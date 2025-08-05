@@ -1,7 +1,9 @@
 #include<iostream>
 #include<vector>
+#include<chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 int scalerAddCount=0,scalerMulCount=0;
 
@@ -72,9 +74,9 @@ int main(){
       cin>>B[i][j];
     }
   }
-  clock_t start=clock();
+  auto start=high_resolution_clock::now();
   vector<vector<int>> C=Matrix_Multiplication(A,B);
-  clock_t end=clock();
+  auto end=high_resolution_clock::now();
   cout<<"Result after Matrix Multiplication:"<<endl;
   for(int i=0;i<n;i++){
     for(int j=0;j<n;j++){
@@ -84,6 +86,6 @@ int main(){
   }
   cout<<"Number of Scaler Multiplications: "<<scalerMulCount<<endl;
   cout<<"Number of Scaler Additions: "<<scalerAddCount<<endl;
-  cout<<"Time taken : "<<(double)(end-start)/CLOCKS_PER_SEC<<endl;
+  cout<<"Time taken: "<<duration_cast<microseconds>(end-start).count()<<" ms"<<endl;
   return 0;
 }
