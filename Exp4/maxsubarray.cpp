@@ -63,6 +63,6 @@ int main(){
     }
     cout<<"\nSum : "<<res.sum;
     clock_t end=clock();
-    cout<<"Time : "<<(double)(end-start)/CLOCKS_PER_SEC;
+    cout<<"\nTime : "<<(double)(end-start)/CLOCKS_PER_SEC;
     return 0;
 }

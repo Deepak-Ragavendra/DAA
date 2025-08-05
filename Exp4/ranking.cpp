@@ -1,29 +1,57 @@
 #include<iostream>
 #include<vector>
+#include<map>
+#include<ctime>
 
 using namespace std;
 
-void find(vector<int> s,vector<int> final,int *count,int low,int high){
-    if(low>=high){
-        if(s[low]!=final[low]){
-            *count+=1;
-        }
-        return;
+void merge(vector<int> &arr,int low,int mid,int high,int *count){
+  int i=0,j=0,k=low;
+  vector<int> leftarr(arr.begin()+low,arr.begin()+mid+1);
+  vector<int> rightarr(arr.begin()+mid+1,arr.begin()+high+1);
+  while(i<leftarr.size() && j<rightarr.size()){
+    if(leftarr[i]<=rightarr[j]) arr[k++]=leftarr[i++];
+    else{
+      arr[k++]=rightarr[j++];
+      *count+=(leftarr.size()-i);
     }
-    int mid=(low+high)/2;
-    find(s,final,count,low,mid);
-    find(s,final,count,mid+1,high);
-    
+  }
+  while(i<leftarr.size()) arr[k++]=leftarr[i++];
+  while(j<rightarr.size()) arr[k++]=rightarr[j++];
+}
+
+void mergeSort(vector<int> &arr,int low,int high,int *count){
+  if(low==high) return;
+  int mid=(low+high)/2;
+  mergeSort(arr,low,mid,count);
+  mergeSort(arr,mid+1,high,count);
+  merge(arr,low,mid,high,count);
 }
 
 int main(){
-    vector<int> s={101,102,103};
-    vector<int> final={102,103,101};
-    clock_t start=clock();
-    int count=0;
-    find(s,final,&count,0,s.size()-1);
-    clock_t end=clock();
-    cout<<count;
-    cout<<"\nTime taken : "<<(double)(end-start)/CLOCKS_PER_SEC;
+  int n;
+  cin>>n;
+  vector<int> preliminaryrank(n);
+  vector<int> finalrank(n);
+  for(int i=0;i<n;i++){
+    cin>>preliminaryrank[i];
+  }
+  for(int i=0;i<n;i++){
+    cin>>finalrank[i];
+  }
+  clock_t start=clock();
+  int count=0;
+  map<int,int> mpp;
+  for(int i=0;i<n;i++){
+    mpp[preliminaryrank[i]]=i+1;
+  }
+  vector<int> finalindices(n);
+  for(int i=0;i<n;i++){
+    finalindices[i]=mpp[finalrank[i]];
+  }
+  mergeSort(finalindices,0,n-1,&count);
+  clock_t end=clock();
+  cout<<"Number of Count Inversions: "<<count<<endl;
+  cout<<"Time taken: "<<(double)(end-start)/CLOCKS_PER_SEC;
+  return 0;
 }
-
